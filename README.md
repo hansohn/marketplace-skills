@@ -2,9 +2,9 @@
   <h3>marketplace-skills</h3>
   <p>Prep secondhand items for resale — pricing, photos, and listing copy for Facebook Marketplace &amp; eBay.</p>
 
-  <a href="https://github.com/hansohn/marketplace-skills/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/hansohn/marketplace-skills/ci.yml?branch=main&style=for-the-badge&label=Build" alt="Build Status"></a>
-  <a href="https://github.com/hansohn/marketplace-skills/tags"><img src="https://img.shields.io/github/v/tag/hansohn/marketplace-skills?style=for-the-badge&label=Tag" alt="Tag"></a>
-  <a href="https://github.com/hansohn/marketplace-skills/blob/main/LICENSE"><img src="https://img.shields.io/github/license/hansohn/marketplace-skills?style=for-the-badge" alt="License"></a>
+  <a href="https://github.com/hansohn/marketplace-skills/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/hansohn/marketplace-skills/ci.yml?branch=main&style=for-the-badge&label=Build&cacheSeconds=3600" alt="Build Status"></a>
+  <a href="https://github.com/hansohn/marketplace-skills/tags"><img src="https://img.shields.io/github/v/tag/hansohn/marketplace-skills?style=for-the-badge&label=Tag&cacheSeconds=3600" alt="Tag"></a>
+  <a href="https://github.com/hansohn/marketplace-skills/blob/main/LICENSE"><img src="https://img.shields.io/github/license/hansohn/marketplace-skills?style=for-the-badge&cacheSeconds=3600" alt="License"></a>
 </div>
 
 A Claude Code plugin, invoked as `/marketplace:*`. It turns a secondhand item into a complete listing file — **pricing analysis, listing copy per platform, and a recommended photo order** — and can optionally push an eBay draft. Give it an item name or a CSV of items; it does the research and writes the file. You review and post.

@@ -32,3 +32,4 @@ jobs:
           scripts/validate-skills-test.js
           scripts/run-trigger-evals-test.js
           scripts/check-location-leaks-test.js
+          scripts/price-test.js

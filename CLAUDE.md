@@ -21,6 +21,7 @@ platforms/<name>.md          → one file per marketplace format (drives generat
 templates/listing.md         → output file skeleton with {PLACEHOLDER} slots
 references/placeholders.md    → shared placeholder-source table (progressive disclosure)
 references/locked-fields.md   → listing Step 3a deterministic-field rules (read at 3a)
+references/pricing-method.md  → comps Step 4 deterministic pricing method (backs scripts/price.js)
 docs/adr/                     → architecture decision records (why non-obvious calls were made)
 scripts/                      → validation + eval tooling (zero-dependency Node)
 evals/cases/<skill>.json      → per-skill routing datasets (run-trigger-evals.js)
@@ -79,7 +80,8 @@ evals/workspace/              → skill-creator eval run outputs (gitignored)
 node scripts/validate-skills.js         # structure/frontmatter check (CI gate)
 node scripts/check-location-leaks.js    # pre-publish PII guard: fails on any real "City, ST ZIP"
 node scripts/run-trigger-evals.js       # routing regression tripwire (--min-rank1 80)
-node --test scripts/validate-skills-test.js scripts/run-trigger-evals-test.js scripts/check-location-leaks-test.js
+node scripts/price.js <prices...>       # deterministic resale pricing calculator (used by the comps skill)
+node --test scripts/validate-skills-test.js scripts/run-trigger-evals-test.js scripts/check-location-leaks-test.js scripts/price-test.js
 ```
 
 `run-trigger-evals.js` scores each labeled query in `evals/cases/<skill>.json`

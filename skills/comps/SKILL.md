@@ -97,15 +97,24 @@ Quick web search for the item's manufacturer MSRP (the official "originally reta
 
 This avoids the awkward case where the listing says "Retails new for $139.99" while the analysis table also shows the item sold New for $119.99 — readers should be able to see both prices but the listing body anchors to the higher, more authoritative MSRP.
 
-### 4. Synthesize
+### 4. Synthesize (deterministic — use the calculator, don't eyeball)
 
-Build a recommendation:
+Feed the **Pre-Owned** sold-item prices into the shipped calculator and use its numbers verbatim:
 
-- **Used eBay range** = min/max from Pre-Owned sold comps (drop one-off outliers)
-- **Used eBay average** = mean of remaining comps
-- **List price** = top of used eBay range, OR midpoint if the item has wear / common color / weak demand signals
-- **Drop price** = midpoint of used range, used if no bites in 7–10 days
-- Apply a small local-pickup premium vs eBay (buyer avoids shipping cost) — typically 10–25%
+```
+node ${CLAUDE_PLUGIN_ROOT}/scripts/price.js --condition "{condition}" {p1} {p2} {p3} ...
+# add --heterogeneous if the comp set mixes incompatible variants (e.g. Sport vs Pro vs Classic)
+```
+
+It removes outliers with **Tukey fences (1.5·IQR)**, then reports from the cleaned set:
+- **Median** + **IQR** (robust to skew — use these, not a mean that one high sale drags around)
+- **List price** = condition-adjusted 75th-percentile (robust "upper cluster"); **Drop price** = condition-adjusted median
+- **Confidence** tier (high / medium / low) from comp count + dispersion, capped by `--heterogeneous`
+- The **percentile** where the list price sits among the sold comps
+
+There is **no LLM in the pricing math** — the numbers are deterministic and reproducible. If the script can't run (no Bash/Node), apply the identical method by hand per `${CLAUDE_PLUGIN_ROOT}/references/pricing-method.md`. Never eyeball or fabricate the stats.
+
+**Item-specific defects** not captured by the condition grade (a puncture, a missing part, a dead pixel) warrant a small **manual markdown below** the calculator's list price — state it explicitly (e.g. "$72 baseline, −$7 for the seat puncture → **$65**"). No synthetic local-pickup premium is baked into the number; any pickup framing is qualitative prose in the recommendation.
 
 ## Output format
 
@@ -129,8 +138,8 @@ Emit **two separate Markdown blocks** that the orchestrator slots directly into 
 |---|---|---|---|
 | {date} | {title} | Pre-Owned | ${price} |
 
-**Used Range:** ${min} – ${max}
-**Used Average:** ~${avg}
+**Used Range (cleaned):** ${min} – ${max}  ·  **Median:** ${median}  ·  **Q1–Q3:** ${q1} – ${q3}
+**Confidence:** {high | medium | low} — {N} Pre-Owned comps{, {M} outlier(s) removed via Tukey fences}
 
 ### Facebook Marketplace — Active Listings ({location}, {Month D, YYYY})    ← OMIT this entire subsection if step 2 was skipped (default)
 *Source: Live FB Marketplace browser search*
@@ -152,9 +161,9 @@ Emit **two separate Markdown blocks** that the orchestrator slots directly into 
 | List price | **${list}** | {rationale} |
 | No bites in 7–10 days | **${drop}** | {rationale} |
 
-**Final listing price: ${list}**
+**Final listing price: ${list}**   ·   *basis: condition-adjusted P75 / median of {N} cleaned sold comps · confidence {tier}*
 
-> {one-paragraph context: why this price, condition factors, color/demand signals}
+> {one-paragraph context: why this price, the condition factor applied, any item-specific defect markdown, demand/color signals, and how much to trust the comp set given its confidence tier}
 ```
 
 Return both blocks in your response, clearly labeled (`### Block 1` / `### Block 2`) so the orchestrator can extract them.
@@ -167,6 +176,7 @@ Before returning, confirm every item — these are the invariants a comps run mu
 - **Prices, not fabrications** — if data was genuinely absent you emitted the honest "no comparable sales data found" block; you did not invent a single price.
 - **Empty ≠ no-comps** — before emitting "no comps found," you confirmed a thin/empty page was not an anti-bot interstitial (waited in place, then retried/closed, then fell back to web search).
 - **Used drives the recommendation** — Pre-Owned comps are separated from new comps, and the list/drop prices derive from the used set only.
+- **Deterministic stats** — the range / median / list / drop came from `scripts/price.js` (or the identical by-hand method in `references/pricing-method.md`), not eyeballed; outliers were removed via Tukey fences and a confidence tier is stated. Any item-specific defect markdown is called out separately.
 - **MSRP is the single retail anchor** — the retail callout uses manufacturer MSRP; any "current new street price" appears only as a separate reference row, never as the callout.
 - **Research date cited** — the analysis block states the pull date inline in `Month D, YYYY` format.
 - **Two labeled blocks** — output is exactly Block 1 (Pricing Analysis) and Block 2 (Pricing Recommendation), each with an h2 heading, nothing outside them.
@@ -175,7 +185,7 @@ Before returning, confirm every item — these are the invariants a comps run mu
 
 - Always cite the research date inline (format: `Month D, YYYY`, e.g., `June 8, 2026`) so future readers know when comps were pulled. Use the same format as the orchestrator's `{RESEARCH_DATE}` placeholder in the file footer.
 - If fewer than 3 Pre-Owned sold comps exist for the exact model, broaden to model family (e.g., "Strider 12" instead of "Strider 12 Sport") and note the broadened scope
-- When a query returns many comps (15+), don't dump every row into the table — it bloats the listing file. Show a **representative core cluster** (the comps that actually set the range), then add one line stating the total count and what you excluded as outliers, e.g. *"30 Pre-Owned comps returned; table shows the core cluster. Excluded: three sub-$25 parts/damaged units and three high-shipping bundles."* The range and average should still reflect the full usable set, not just the rows shown.
+- When a query returns many comps (15+), don't dump every row into the table — it bloats the listing file. Show a **representative core cluster** (the comps that actually set the range), then add one line stating the total count and what you excluded as outliers, e.g. *"30 Pre-Owned comps returned; table shows the core cluster. Excluded: three sub-$25 parts/damaged units and three high-shipping bundles."* The median, range, and confidence should still reflect the full usable Pre-Owned set (fed to `scripts/price.js`), not just the rows shown.
 - If only new comps exist (rare item, no resale history), recommend pricing at 40–60% of retail as a starting point and flag the lack of resale data
 - **If no comps and no retail exist** (obscure item, generic part, custom build): emit the blocks with empty tables and a `> ⚠️ No comparable sales data found.` note in the Pricing Recommendation context paragraph. Recommend the user (a) try a different query phrasing, (b) check niche forums/subreddits for the item category, or (c) list at an exploratory price and adjust based on inquiries. Do not invent prices.
 - Heavy browser output should be processed in a subagent if possible to keep the main context clean

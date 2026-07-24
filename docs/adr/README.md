@@ -16,3 +16,4 @@ Format is lightweight — Status / Context / Decision / Consequences.
 | [0004](0004-zero-dependency-tooling.md) | Keep the scripts/ tooling zero-dependency Node | Accepted |
 | [0005](0005-invocation-control-and-tool-grants.md) | Don't disable model-invocation on ebay-draft; don't auto-grant tools | Accepted |
 | [0006](0006-location-placeholder-and-leak-guard.md) | One placeholder location, enforced by a pre-publish leak guard | Accepted |
+| [0007](0007-deterministic-pricing-math.md) | Deterministic pricing math (Tukey + median + percentile), not eyeballed | Accepted |

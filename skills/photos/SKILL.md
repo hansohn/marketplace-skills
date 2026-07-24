@@ -130,7 +130,6 @@ Before returning, confirm every item:
 ## Notes
 
 - Hero shot quality matters more than total photo count. If only one photo is genuinely great, lead with it and accept a shorter list.
-- For items with known cosmetic issues (scratches, missing parts, wear, punctures), reserve one position 4+ slot for a transparent shot of the issue. Hiding it kills trust on inspection. Disclosing it qualifies buyers before the meetup.
 - If photos look thin (everything from the same angle, no detail shots), say so and suggest what to re-shoot before listing.
 - **The first photo determines whether the buyer clicks.** Spend disproportionate attention on hero-shot selection. The right hero can lift response rate 2–3x over a mediocre hero.
 - When in doubt about position 1–3 ordering, ask: "would a buyer scrolling fast on their phone fall in love with this in 0.5 seconds?" If yes → position 1. If it makes them think "okay, what condition is this in" → position 4+.

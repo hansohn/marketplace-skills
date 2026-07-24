@@ -55,7 +55,7 @@ https://www.ebay.com/sch/i.html?_nkw={URL_ENCODED_QUERY}&LH_Complete=1&LH_Sold=1
 () => document.body.innerText.substring(0, 25000)
 ```
 
-One `browser_evaluate` call returns up to 25KB of page text — enough to capture ~30+ sold listings (which appear at the top of the page). Do **not** chunk into 5KB slices; that was an earlier defensive pattern that wastes round-trip latency without saving context. The DOM-selector approach via `.s-item` typically returns empty because eBay loads results asynchronously — text extraction is more reliable.
+One `browser_evaluate` call returns up to 25KB of page text — enough to capture ~30+ sold listings (which appear at the top of the page). Extract in a single call, not chunked slices. A `.s-item` DOM-selector approach typically returns empty because eBay loads results asynchronously — text extraction is more reliable.
 
 **Two failure modes to expect — eBay is bot-aware:**
 

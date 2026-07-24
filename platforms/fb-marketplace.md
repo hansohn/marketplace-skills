@@ -35,3 +35,9 @@
 - `{AVAILABILITY_NOTE}` is **orchestrator-computed and locked** (see Step 3a/C): a `> **N available** — price is per unit.` line when CSV `Quantity` > 1, else an empty string. Substitute as-is; don't add a note when it's empty.
 - List 3–6 features. More than 6 dilutes attention.
 - Close with the standard footer (retail callout, smoke/pet disclosure, location, payment, "No holds").
+
+## Selling notes
+
+Not part of the generated copy — seller-facing advice the orchestrator surfaces (see `listing` Step 6):
+
+- **Renewal cadence.** Facebook's feed ranks fresh listings higher, so a post that has sat for a week gets buried. If there are no bites in ~7 days, **delete the listing and repost it** to refresh visibility — often more effective than a price drop alone. Pair it with the comps drop-price cadence. (The plugin never auto-posts; this is guidance for the seller to act on manually.)

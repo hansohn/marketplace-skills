@@ -236,6 +236,7 @@ Tell the user:
 - File path
 - Any judgment calls worth flagging
 - **If eBay is in the enabled platforms**, offer to also create an eBay draft. (`/marketplace:ebay-draft` ships with the plugin and is always available; it will detect whether the eBay MCP server is configured at runtime and guide setup if not.)
+- **If Facebook Marketplace is enabled**, remind the user of the **renewal cadence**: FB's feed favors fresh listings, so if there are no bites in ~7 days, *delete and repost* to refresh visibility — often more effective than a price drop alone, and it pairs with the comps drop-price cadence. This is advice; the plugin never auto-posts. (See `${CLAUDE_PLUGIN_ROOT}/platforms/fb-marketplace.md` → Selling notes.)
 
 ### 7. (Optional) Create eBay draft
 

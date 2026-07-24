@@ -1,0 +1,23 @@
+# {ITEM_TITLE} — Listing & Pricing Analysis
+
+{ITEM_DETAILS_BLOCK}
+
+---
+
+{PRICING_ANALYSIS_BLOCK}
+
+---
+
+{PRICING_RECOMMENDATION_BLOCK}
+
+---
+
+{PLATFORM_LISTINGS}
+
+---
+
+{PHOTOS_BLOCK}
+
+---
+
+*Research conducted {RESEARCH_DATE}. {RESEARCH_NOTES}*

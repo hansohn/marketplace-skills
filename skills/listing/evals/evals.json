@@ -1,0 +1,51 @@
+{
+  "skill_name": "listing",
+  "evals": [
+    {
+      "id": 0,
+      "name": "strider-fb-only",
+      "prompt": "/marketplace:listing on examples/garage/inventory.csv (single Strider 12 Sport balance bike row), FB Marketplace only (default platform), --location=\"Phoenix, AZ 85016\".",
+      "expected_output": "A {ItemPrefix}-Listing.md with Item Details, live eBay pricing analysis + recommendation, one Facebook Marketplace listing block, and a recommended photo order. Quality should match or beat examples/garage/Strider-12-Sport-generated.md. The seat puncture must appear as a known-issue and be disclosed in a photo slot.",
+      "files": ["examples/garage/inventory.csv", "examples/garage/Photos/Strider/"],
+      "assertions": [
+        "No eBay listing block is present (FB-only run respected the default platform)",
+        "The seat puncture appears as a known-issue in the FB listing body",
+        "The seat puncture is given a dedicated photo slot in the recommended photo order",
+        "No unresolved placeholder tokens survive in the output",
+        "Final list price and a lower drop price are both present and plausible vs the live eBay used range",
+        "Pricing analysis cites a live research date in 'Month D, YYYY' format"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "strider-fb-ebay",
+      "prompt": "/marketplace:listing \"Strider 12 Sport Balance Bike ST-S4RD\", Used (Good), --platforms=fb,ebay --location=\"Phoenix, AZ 85016\".",
+      "expected_output": "A listing file with BOTH a Facebook Marketplace block and an eBay block. eBay title <=80 chars, Item Specifics table, eBay condition mapped to a valid enum value. The {RETAIL_CALLOUT}/{INCLUDES_SECTION} machinery should render identically in spirit across both platform blocks (same retail anchor, same inclusions). No leftover placeholder tokens.",
+      "files": ["examples/garage/Photos/Strider/"],
+      "assertions": [
+        "Both a Facebook Marketplace block and an eBay block are present",
+        "eBay title is <= 80 characters",
+        "eBay condition is one of the valid eBay enum/dropdown values",
+        "The retail callout (MSRP anchor) is consistent between the FB and eBay blocks",
+        "The Includes section content is consistent between the FB and eBay blocks",
+        "No unresolved placeholder tokens survive in either block",
+        "Pricing analysis cites a live research date in 'Month D, YYYY' format"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "uppababy-includes-filter",
+      "prompt": "/marketplace:listing \"UPPAbaby Vista stroller\", Used (Good), notes: comes with bassinet, rain shield, and original box. --platforms=fb,ebay --location=\"Phoenix, AZ 85016\". No photos available.",
+      "expected_output": "A listing with an Includes section that KEEPS genuine extras (bassinet, rain shield, original box) and FILTERS OUT integral parts (canopy, basket, harness, wheels) even if they get mentioned. Retail callout anchored to UPPAbaby MSRP. Graceful handling of the no-photos case (notes thin/absent photos rather than fabricating a photo order).",
+      "files": [],
+      "assertions": [
+        "Includes section KEEPS the genuine extras: bassinet, rain shield, and original box",
+        "Includes section EXCLUDES integral stroller parts (canopy, basket, harness, wheels, frame)",
+        "Retail callout is anchored to a real UPPAbaby Vista MSRP, not a fabricated number",
+        "No-photos case is handled gracefully (no fabricated photo order; absence noted)",
+        "No unresolved placeholder tokens survive in either block",
+        "Both FB and eBay blocks are present"
+      ]
+    }
+  ]
+}

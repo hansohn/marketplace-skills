@@ -1,0 +1,73 @@
+# === Operating system cruft ===
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+desktop.ini
+
+# === Editor / IDE local state ===
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.history/
+# Local Claude Code dev config (personal allowlist + absolute paths) stays out
+# of the repo; the sanitized template below is the tracked, shareable version.
+.claude/*
+!.claude/settings.example.json
+*.code-workspace
+
+# === Local environment / secrets ===
+.env
+.env.*
+*.local.json
+secrets.json
+credentials.json
+
+# === Playwright / browser MCP artifacts ===
+# Created when comps skill runs browser automation in a working dir
+.playwright-mcp/
+playwright-report/
+test-results/
+
+# === Test / scratch / personal files ===
+# Anything an author or contributor uses locally but doesn't want shipped
+scratch/
+scratch.md
+notes/
+notes.md
+TODO.md
+test/
+tests/
+examples/local/
+*.bak
+*.orig
+
+# === Generated listings (in case the plugin is tested from inside its own dir) ===
+# Real listings live in the user's working directory, not the plugin —
+# but defend against accidents
+*-Listing.md
+*-Listing.old.md
+Garage.csv
+StorageItems.csv
+
+# === User memory (defense in depth) ===
+# Memory lives in ~/.claude/projects/.../memory/ and should never be inside
+# the plugin, but this catches accidental copies
+memory/
+MEMORY.md
+
+# === Logs ===
+*.log
+logs/
+
+# === Node / future tooling defenses ===
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# === Skill-creator eval run outputs (regenerable; keep out of the repo) ===
+evals/workspace/

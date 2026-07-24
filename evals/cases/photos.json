@@ -1,0 +1,10 @@
+{
+  "skill": "photos",
+  "positives": [
+    "rank these 8 product photos in ./Photos and tell me which to use and in what order",
+    "which of these photos should I use for the listing?",
+    "pick the best hero shot from my photo folder",
+    "what order should these product pics go in for the post?",
+    "review the photos in ./Photos and tell me which ones to skip"
+  ]
+}

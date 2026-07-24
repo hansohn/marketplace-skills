@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "permissions": {
+    "allow": [
+      "Bash",
+      "Write",
+      "Read",
+      "WebFetch",
+      "WebSearch",
+      "mcp__plugin_playwright_playwright"
+    ],
+    "additionalDirectories": [
+      "/absolute/path/to/your/sales/folder"
+    ]
+  }
+}

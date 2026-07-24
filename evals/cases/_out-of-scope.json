@@ -1,0 +1,11 @@
+{
+  "note": "Queries that should NOT route to any skill in this plugin. Reported informationally by run-trigger-evals.js — a heuristic lexical scorer can't assert an absolute 'routes to nothing' threshold, so these surface the top match + score for eyeballing rather than hard pass/fail.",
+  "out_of_scope": [
+    "write a job listing for a senior backend engineer role on our careers page",
+    "list all the .png files in my Downloads folder sorted by size",
+    "I'm buying a used UPPAbaby stroller from someone — is $300 a fair price to pay?",
+    "help me write the property listing for selling my condo, 2 bed 2 bath in Tempe",
+    "add milk, eggs, and paper towels to my shopping list",
+    "make a bulleted list of the pros and cons of leasing vs buying a car"
+  ]
+}
